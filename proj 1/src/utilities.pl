@@ -2,7 +2,7 @@ printCell(empty, ' ').
 printCell(red, 'R').
 printCell(blue, 'B').
 
-state(A):-
+middleState(A):-
 	A = [[empty, blue, empty, red, empty],
 		[blue, blue, empty, empty, empty],
 		[red, blue, red, empty, empty],
