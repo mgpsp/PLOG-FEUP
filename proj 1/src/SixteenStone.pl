@@ -35,15 +35,18 @@ updateNumPieces(Player, BlueStones, RedStones, UpdatedBS, UpdatedRS):-
 
 putPieceAt(Board, Player, ResultantBoard):-
 	nl, write('  Where do you want to put the piece?'), nl, nl,
-	write('    Row: '),
-	getInt(X),
-	write('    Column: '), !,
-	getInt(Y),
-	validateCoordsLimit(X, Y),
-	X1 is X - 1, Y1 is Y - 1,
-	validadeMovePiece(X1, Y1, Board),
+	getCoordinates(X, Y),
+	validadePutPiece(X, Y, Board),
 	getPieceColor(Player, Piece),
-	setMatrixElemAtWith(X1, Y1, Piece, Board, ResultantBoard).
+	setMatrixElemAtWith(X, Y, Piece, Board, ResultantBoard).
+
+getCoordinates(X, Y):-
+	write('    Row: '),
+	getInt(X1),
+	write('    Column: '), !,
+	getInt(Y1),
+	validateCoordsLimit(X1, Y1),
+	X is X1 - 1, Y is Y1 - 1.
 
 validateCoordsLimit(X, Y):-
 	X > 0, X < 6,
@@ -52,11 +55,11 @@ validateCoordsLimit(X, Y):-
 validateCoordsLimit(_, _):-
 	nl, write('  Invalid input! Out of limits.'), nl, fail.
 
-validadeMovePiece(X, Y, Board):-
+validadePutPiece(X, Y, Board):-
 	getMatrixElemAt(X, Y, Board, Cell),
 	Cell == empty, !.
 
-validadeMovePiece(_, _, _):-
+validadePutPiece(_, _, _):-
 	nl, write('  Invalid input! Not an empty cell.'), nl, fail.
 
 getPieceColor(Player, Piece):-
@@ -73,11 +76,38 @@ playGame(Board, BlueStones, RedStones, Player, AvailablePlays) :-
 	write('  > '),
 	read(Play),
 	updatePlays(Play, AvailablePlays, ResultantPlays),
-	playGame(Board, BlueStones, RedStones, Player, ResultantPlays).
+	getInputByPlay(Board, Play, ResultantBoard, Player),
+	playGame(ResultantBoard, BlueStones, RedStones, Player, ResultantPlays).
+
+getInputByPlay(Board, Play, ResultantBoard, Player):-
+	(Play = move -> movePiece(Board, ResultantBoard, Player);
+	Play = push -> pushPiece(Board, ResultantBoard, Player);
+	Play = sacrifice -> sacrificePiece(Board, ResultantBoard, Player);
+	nl, write('  Invalid play.'), fail).
+
+movePiece(Board, ResultantBoard, Player):-
+	nl, write('  What piece do you want to move?'), nl, nl,
+	get_code(_),
+	getCoordinates(SrcX, SrcY), !,
+	validatePieceOwnership(X, Y, Player, Board),
+	nl, write('  Where do you want to move the piece?'), nl, nl,
+	getCoordinates(DestX, DestY), !,
+	validateMovePiece(SrcX, SrcY, DestX, DestY, Board),
+	getPieceColor(Player, Piece),
+	setMatrixElemAtWith(SrcX, SrcY, empty, Board, TmpBoard),
+	setMatrixElemAtWith(DestX, DestY, Piece, TmpBoard, ResultantBoard).
+
+pushPiece(Board, ResultantBoard, Player).
+
+sacrificePiece(Board, ResultantBoard, Player).
 
 updatePlays(Play, AvailablePlays, ResultantPlays):-
 	((Play = move; Play = push) -> select(Play, AvailablePlays, ResultantPlays);
-	Play = sacrifice -> append(AvailablePlays, [push, move], TmpPlays), select(Play, TmpPlays, TmpPlays1), remove_dups(TmpPlays1, ResultantPlays)).
+	Play = sacrifice -> append(AvailablePlays, [push, move], TmpPlays), select(Play, TmpPlays, TmpPlays1), remove_dups(TmpPlays1, ResultantPlays);
+	nl, write('  Invalid play.'), fail).
+
+validatePieceOwnership(X, Y, Player, Board).
+validateMovePiece(SrcX, SrcY, DestX, DestY, Board).
 
 
 % ============================== %
@@ -94,7 +124,6 @@ printAvailablePlays([H|T], I, S):-
 	printAvailablePlays(T, I1, S).
 
 printBoard(Board):-
-	clrscr,
 	write('     '),
     printColumnIdentifiers(0, 5), nl,
 	write('   '), printSeparator(0, 5), nl,
