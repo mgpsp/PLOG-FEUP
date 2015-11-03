@@ -10,7 +10,7 @@ mainMenu:-
 	write('                                 '), nl,
 	write('   > '),
 	getChar(OP), (
-		OP = '1' -> emptyBoard(Board), fillBoard(Board, 2, 2, 'Blue');
+		OP = '1' -> emptyBoard(Board), fillBoard(Board, 0, 0, 'Blue');
 		OP = '2';
 		OP = '3';
 		OP = '4' -> aboutMenu, mainMenu;

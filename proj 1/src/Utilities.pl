@@ -21,8 +21,8 @@ getInt(I):-
 	I is K - 48.
 
 emptyBoard(Board):-
-	Board = [[empty, empty, empty, empty, empty],
-			[empty, empty, empty, empty, empty],
+	Board = [[blue, red, empty, empty, empty],
+			[empty, empty, blue, empty, empty],
 			[empty, empty, empty, empty, empty],
 			[empty, empty, empty, empty, empty],
 			[empty, empty, empty, empty, empty]].
