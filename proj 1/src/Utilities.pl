@@ -22,8 +22,8 @@ getInt(I):-
 
 emptyBoard(Board):-
 	Board = [[blue, red, empty, empty, empty],
-			[empty, empty, blue, empty, empty],
-			[empty, empty, empty, empty, empty],
+			[empty, red, blue, blue, empty],
+			[blue, empty, empty, empty, empty],
 			[empty, empty, empty, empty, empty],
 			[empty, empty, empty, empty, empty]].
 
