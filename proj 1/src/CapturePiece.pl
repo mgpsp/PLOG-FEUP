@@ -1,7 +1,7 @@
 checkCapture(X, Y, Board, ResultantBoard, BlueStones, RedStones, UpdatedBs, UpdatedRs, Player):-
 	getPieceColor(Player, PlayerPiece),
-	(PlayerPiece = blue -> ToCapture = red, BlueStones > 0;
-	PlayerPiece = red -> ToCapture = blue, RedStones > 0; fail), !,
+	(PlayerPiece = blue -> ToCapture = red;
+	PlayerPiece = red -> ToCapture = blue; fail),
 	checkCaptureLeftUp(X, Y, Board, B1, PlayerPiece, ToCapture, BlueStones, RedStones, Bs1, Rs1),
 	checkCaptureUp(X, Y, B1, B2, PlayerPiece, ToCapture, Bs1, Rs1, Bs2, Rs2),
 	checkCaptureRightUp(X, Y, B2, B3, PlayerPiece, ToCapture, Bs2, Rs2, Bs3, Rs3),

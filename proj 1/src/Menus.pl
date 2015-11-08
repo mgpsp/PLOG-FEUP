@@ -10,9 +10,9 @@ mainMenu:-
 	write('                                 '), nl,
 	write('   > '),
 	getChar(OP), (
-		OP = '1' -> emptyBoard(Board), fillBoard(Board, 0, 0, 'Blue');
-		OP = '2';
-		OP = '3';
+		OP = '1' -> middleState(Board), fillBoard(Board, 0, 0, 'Blue');
+		OP = '2' -> pvc, mainMenu;
+		OP = '3' -> pvc, mainMenu;
 		OP = '4' -> aboutMenu, mainMenu;
 		OP = '5';
 		mainMenu).
@@ -28,4 +28,9 @@ aboutMenu:-
 	write('   Press Enter to continue...    '),
 	get_char(_).
 
+pvc:-
+	clrscr,
+	write('  Not implemented.'), nl,
+	write('  Press Enter to return...'),
+	get_char(_).
 			
