@@ -27,9 +27,12 @@ validatePush(Board, X, Y, Player, Dirx, Diry):-
 	OponentPieces > 0,
 	((LastX1 > -1, LastX1 < 5, LastY1 > -1, LastY1 < 5) -> getMatrixElemAt(LastX1, LastY1, Board, Cell), Cell == empty; true).
 
+checkCaptured(Board, _, _, Board, Player, BlueStones, RedStones, BlueStones, RedStones):-
+	getPieceColor(Player, PlayerPiece),
+	\+((continueCheckCapture(PlayerPiece, BlueStones, RedStones))), !.
+
 checkCaptured(Board, X, Y, NewBoard, Player, BlueStones, RedStones, UpdatedBs, UpdatedRs):-
 	getPieceColor(Player, PlayerPiece),
-	continueCheckCapture(PlayerPiece, BlueStones, RedStones),
 	X1 is X - 1,
 	X2 is X + 1,
 	Y1 is Y - 1,

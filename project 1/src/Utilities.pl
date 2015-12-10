@@ -30,7 +30,7 @@ emptyBoard(Board):-
 middleState(Board):-
 	Board = [[empty, blue, empty, blue, empty],
 			[red, red, empty, blue, empty],
-			[empty, red, blue, red, blue],
+			[empty, red, red, red, blue],
 			[blue, empty, red, empty, blue],
 			[red, blue, red, red, blue]].
 
