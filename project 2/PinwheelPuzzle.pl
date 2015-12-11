@@ -68,10 +68,10 @@ solvePinwheel(Board, Result, Sum):-
 %%%%         PRINTER        %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-printResult(Board):-
+printResult(Result):-
 	write('   '),
 	printSeparator(0, 9), nl,
-	addElem(Board, 0, 9), !.
+	addElem(Result, 0, 9), !.
 
 addElem(_, S, S).
 addElem([H|T], I, S):-
